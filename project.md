@@ -15,7 +15,8 @@ completed / blocked
 | Fungal HMM gap classification | validated | 1,980,140 normalized rows; preliminary rate 32.84% |
 | Function-label audit | validated | 390 families/88 polyspecific; protein-level hard labels missing |
 | Local structure-availability audit | validated | CAZyme3D exact + MMseqs 90/80 completed; 5.6524% local coverage |
-| ESM-2 ceiling probe | blocked | GPU preflight currently fails; legacy ESM-C is not a substitute |
+| ESM-2 ceiling probe | blocked | Official cluster30 run is absent; met now exposes 8 GPUs, but the model environment/probe remains unvalidated |
+| ESMC 2026 integration design | implemented | Evidence report, model artifact schema, B8 SAE baseline, and met execution wrapper added; no model run started |
 | Independent domain-boundary gold | blocked | No curated/PDB boundary table found locally |
 | Phase 0 decision | blocked | Preliminary gap rule says continue; six blocking gates remain |
 
@@ -33,7 +34,23 @@ No mutable `latest` symlink is used.
 1. Adjudicate or namespace the 36 `Lenrap1`/`YarliW29` canonical conflicts.
 2. Rerun the complete 2024-MSA seed-identity audit (214,618 planned queries).
 3. Restore GPU visibility and run the frozen ESM-2 650M cluster30 ceiling probe.
-4. Acquire protein-level characterized labels and make the licence decision.
+4. Acquire protein-level characterized labels and independent domain boundaries.
+5. Pin exact current/legacy ESMC revisions, model-card/licence snapshots, and
+   weight hashes before the 300M/600M smoke and layer-sweep runs.
+
+The ESMC integration specification is
+`docs/esmc_2026_integration_report_zh.md`. The primary proposed sequence model
+is current ESMC 600M after a per-task frozen layer sweep; ESMC 300M is the
+smoke/cost floor, and ESMC 6B SAE is baseline B8 for controlled remote and
+fam-0 retrieval. Structure remains selective because promoted local coverage
+is 5.6524%. These are design decisions, not completed experiments.
+
+Server execution is standardized at
+`met.unl.edu:/array1/xinpeng/fungi-cazyme-PLM` using
+`scripts/remote/met_run.sh`; the wrapper records immutable command, Git, GPU,
+environment, stdout/stderr, and status metadata. The 2026-07-21 environment
+snapshot found eight RTX A5500 GPUs, but every scientific run must capture a
+fresh environment snapshot.
 
 ## Unresolved blockers
 
@@ -41,6 +58,8 @@ No mutable `latest` symlink is used.
 - CAZy clan mapping.
 - Protein-level characterized fungal substrate/EC evidence.
 - Independent curated or PDB-derived domain boundaries.
-- Encoder/release licensing and a functioning GPU environment.
+- Exact current/legacy encoder revision, model-card/licence snapshot, weight
+  hash, and a validated ESMC/ESM-2 runtime. The current Biohub release is a
+  viable MIT candidate, while legacy ESM-C artifacts remain audit-only.
 - Thirty-six different-sequence canonical ID collisions; three block the
   current seed-identity query set.

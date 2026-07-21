@@ -34,6 +34,15 @@ def _deep_merge(base: dict[str, Any], overlay: Mapping[str, Any]) -> dict[str, A
     return result
 
 
+def _resolve_path(value: str | Path, base: Path) -> Path:
+    """Resolve a configured path, anchoring relative values to ``base``."""
+
+    candidate = Path(value).expanduser()
+    if not candidate.is_absolute():
+        candidate = base / candidate
+    return candidate.resolve()
+
+
 @dataclass(frozen=True)
 class ProjectConfig:
     """Resolved project configuration."""
@@ -78,7 +87,7 @@ def load_config(path: str | Path) -> ProjectConfig:
     project_root_value = loaded.get("project_root")
     if not project_root_value:
         raise ConfigurationError("project_root is required")
-    project_root = Path(project_root_value).expanduser().resolve()
+    project_root = _resolve_path(project_root_value, config_path.parent)
 
     phase0_path = project_root / "configs" / "phase0.yaml"
     phase0: dict[str, Any] = {}
@@ -102,7 +111,7 @@ def load_config(path: str | Path) -> ProjectConfig:
         "snapshots_dir": project_root / "data" / "manifests" / "snapshots",
     }
     outputs = {
-        key: Path(raw_outputs.get(key, default)).expanduser().resolve()
+        key: _resolve_path(raw_outputs.get(key, default), project_root)
         for key, default in defaults.items()
     }
 
@@ -114,7 +123,7 @@ def load_config(path: str | Path) -> ProjectConfig:
         if not isinstance(spec, Mapping) or not spec.get("path"):
             raise ConfigurationError(f"Source {source_id!r} requires a path")
         normalized = dict(spec)
-        normalized["path"] = str(Path(normalized["path"]).expanduser().resolve())
+        normalized["path"] = str(_resolve_path(normalized["path"], project_root))
         normalized.setdefault("kind", "file")
         if normalized["kind"] not in {"file", "directory"}:
             raise ConfigurationError(

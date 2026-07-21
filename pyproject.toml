@@ -17,6 +17,10 @@ dependencies = [
 dev = [
   "pytest>=8.0",
 ]
+report = [
+  "reportlab>=4.0",
+  "pypdf>=5.0",
+]
 
 [project.scripts]
 fcplm = "fungi_cazyme_plm.cli:main"
@@ -30,4 +34,3 @@ where = ["src"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
-

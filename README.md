@@ -16,8 +16,9 @@ decisions, and promoted run identifiers live in `project.md`.
 - HMM envelopes are weak supervision, never an independent boundary gold set.
 - Family-inherited substrate labels are weak labels, never hard function-test
   labels.
-- ESM-C 600M legacy outputs may be audited but are not a release-compatible
-  training dependency until licensing is resolved.
+- ESM-C 600M legacy outputs remain audit-only. Current 2026 ESMC artifacts are
+  separate MIT candidates and require an immutable revision, model-card/
+  licence snapshot, and weights hash before use.
 
 ## Setup
 
@@ -53,6 +54,25 @@ On the current snapshot, the full target intentionally exits non-zero at the
 36 protein-alias conflicts. The already-valid downstream components can be
 rerun independently with `--skip-aliases`; the promoted blocked decision and
 component run IDs are recorded in `docs/00_phase0_decision_memo.md`.
+
+## ESMC 2026 integration report
+
+The evidence review, task mapping, model matrix, evaluation gates, compute
+budget, and implementation decisions are in
+`docs/esmc_2026_integration_report_zh.md`. A portable PDF is generated at
+`output/pdf/esmc_2026_integration_report_zh.pdf`:
+
+```bash
+python -m pip install -e '.[report]'
+make report-esmc-pdf
+```
+
+Model-derived artifacts follow
+`schemas/model_artifact_manifest.schema.json`; a non-executable starting config
+is provided at `configs/models/esmc.example.yaml`. The authoritative compute
+workspace and Cursor/Codex workflow are documented in
+`docs/remote_execution_met.md`. Long jobs on `met.unl.edu` should run through
+`scripts/remote/met_run.sh` inside `tmux`.
 
 Every command creates an append-only machine run under `logs/<run_id>/` and a
 separate result directory under `results/phase0/<run_id>/`. Generated data are

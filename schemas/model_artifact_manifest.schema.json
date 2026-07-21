@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "model_artifact_manifest.schema.json",
+  "title": "FCPLM model-derived artifact manifest",
+  "description": "One immutable model-derived artifact. Biological coordinates are 1-based inclusive.",
+  "type": "object",
+  "required": [
+    "artifact_id",
+    "artifact_uri",
+    "run_id",
+    "task",
+    "model",
+    "representation",
+    "subject",
+    "context_policy",
+    "split_id",
+    "created_at_utc"
+  ],
+  "properties": {
+    "artifact_id": {"type": "string", "minLength": 1},
+    "artifact_uri": {"type": "string", "minLength": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "task": {"enum": ["T1", "T2", "T3", "T4", "retrieval", "structure", "smoke"]},
+    "model": {
+      "type": "object",
+      "required": [
+        "model_id",
+        "model_revision",
+        "code_revision",
+        "weights_sha256",
+        "backend",
+        "license_id",
+        "license_snapshot_uri"
+      ],
+      "properties": {
+        "model_id": {"type": "string", "minLength": 1},
+        "model_revision": {"type": "string", "minLength": 1},
+        "code_revision": {"type": "string", "minLength": 1},
+        "weights_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "backend": {"enum": ["huggingface", "biohub_api", "local", "other"]},
+        "license_id": {"type": "string", "minLength": 1},
+        "license_url": {"type": ["string", "null"]},
+        "license_snapshot_uri": {"type": "string", "minLength": 1},
+        "legacy_artifact": {"type": "boolean", "default": false}
+      },
+      "additionalProperties": true
+    },
+    "representation": {
+      "type": "object",
+      "required": ["layer_indices", "pooling", "dtype"],
+      "properties": {
+        "layer_indices": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 0},
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "pooling": {
+          "enum": [
+            "none",
+            "mean",
+            "max",
+            "attention",
+            "cls",
+            "sae_max",
+            "sae_prevalence",
+            "token_logits"
+          ]
+        },
+        "embedding_dim": {"type": ["integer", "null"], "minimum": 1},
+        "dtype": {"enum": ["float32", "float16", "bfloat16", "int8", "sparse_coo", "other"]},
+        "sae_model_id": {"type": ["string", "null"]},
+        "sae_revision": {"type": ["string", "null"]},
+        "sae_codebook_size": {"type": ["integer", "null"], "minimum": 1},
+        "sae_top_k": {"type": ["integer", "null"], "minimum": 1},
+        "sae_normalization": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "subject": {
+      "type": "object",
+      "required": ["canonical_id", "sequence_sha256"],
+      "properties": {
+        "canonical_id": {"type": "string", "minLength": 1},
+        "sequence_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "domain_index": {"type": ["integer", "null"], "minimum": 0},
+        "start_1based": {"type": ["integer", "null"], "minimum": 1},
+        "end_1based_inclusive": {"type": ["integer", "null"], "minimum": 1},
+        "coordinate_convention": {"const": "1-based inclusive"}
+      },
+      "additionalProperties": false
+    },
+    "context_policy": {
+      "type": "object",
+      "required": ["max_residue_budget", "overlap_residues", "merge_method"],
+      "properties": {
+        "max_residue_budget": {"type": "integer", "minimum": 1},
+        "special_tokens": {"type": "integer", "minimum": 0},
+        "overlap_residues": {"type": "integer", "minimum": 0},
+        "window_start_1based": {"type": ["integer", "null"], "minimum": 1},
+        "window_end_1based_inclusive": {"type": ["integer", "null"], "minimum": 1},
+        "merge_method": {"enum": ["none", "center_weighted_logits", "mean", "max", "attention"]},
+        "domain_flank_residues": {"type": "integer", "minimum": 0},
+        "complete_domain_coverage": {"type": ["boolean", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "structure": {
+      "type": ["object", "null"],
+      "properties": {
+        "source": {"enum": ["pdb", "cazyme3d", "afdb", "esmfold2", "other", "none"]},
+        "structure_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "predictor_revision": {"type": ["string", "null"]},
+        "mean_plddt": {"type": ["number", "null"], "minimum": 0, "maximum": 100},
+        "plddt_threshold": {"type": ["number", "null"], "minimum": 0, "maximum": 100},
+        "pae_uri": {"type": ["string", "null"]}
+      },
+      "required": ["source"],
+      "additionalProperties": true
+    },
+    "split_id": {"type": "string", "minLength": 1},
+    "random_seed": {"type": "integer"},
+    "hardware": {
+      "type": ["object", "null"],
+      "properties": {
+        "hostname": {"type": "string"},
+        "gpu_model": {"type": ["string", "null"]},
+        "gpu_count": {"type": "integer", "minimum": 0},
+        "peak_vram_mb": {"type": ["number", "null"], "minimum": 0},
+        "gpu_hours": {"type": ["number", "null"], "minimum": 0},
+        "tokens_per_second": {"type": ["number", "null"], "minimum": 0},
+        "cache_hit_rate": {"type": ["number", "null"], "minimum": 0, "maximum": 1}
+      },
+      "additionalProperties": true
+    },
+    "created_at_utc": {"type": "string", "format": "date-time"}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "subject": {"required": ["domain_index"]}
+        }
+      },
+      "then": {
+        "properties": {
+          "subject": {"required": ["start_1based", "end_1based_inclusive"]}
+        }
+      }
+    }
+  ],
+  "additionalProperties": true
+}

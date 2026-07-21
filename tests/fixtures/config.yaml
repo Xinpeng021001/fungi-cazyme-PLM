@@ -1,4 +1,4 @@
-project_root: /array1/xinpeng/fungi-cazyme-PLM
+project_root: ../..
 outputs:
   logs_dir: /tmp/fcplm-fixture/logs
   results_dir: /tmp/fcplm-fixture/results
@@ -8,37 +8,37 @@ outputs:
 
 sources:
   aim2_family_evaluation:
-    {path: /array1/xinpeng/fungi-cazyme-PLM/tests/fixtures/aim2/family_evaluation.tsv, expected_records: 3}
+    {path: tests/fixtures/aim2/family_evaluation.tsv, expected_records: 3}
   aim2_hits:
-    {path: /array1/xinpeng/fungi-cazyme-PLM/tests/fixtures/aim2/hits.tsv, expected_records: 4}
+    {path: tests/fixtures/aim2/hits.tsv, expected_records: 4}
   aim2_genome_support:
-    {path: /array1/xinpeng/fungi-cazyme-PLM/tests/fixtures/aim2/genome_support.tsv, expected_records: 3}
+    {path: tests/fixtures/aim2/genome_support.tsv, expected_records: 3}
   aim2_protein_comparison:
-    {path: /array1/xinpeng/fungi-cazyme-PLM/tests/fixtures/aim2/comparison.tsv, expected_records: 6}
+    {path: tests/fixtures/aim2/comparison.tsv, expected_records: 6}
   aim2_dbcan_results:
-    path: /array1/xinpeng/fungi-cazyme-PLM/tests/fixtures/aim2/dbcan
+    path: tests/fixtures/aim2/dbcan
     kind: directory
     include: "*/dbCAN_hmm_results.tsv"
     expected_files: 1
   aim2_proteomes:
-    path: /array1/xinpeng/fungi-cazyme-PLM/tests/fixtures/aim2/proteomes
+    path: tests/fixtures/aim2/proteomes
     kind: directory
     include: "*.faa"
     expected_files: 1
   cazy_fungi_2024:
-    {path: /array1/xinpeng/fungi-cazyme-PLM/tests/fixtures/cazy_2024.faa, expected_records: 2, record_prefix: ">"}
+    {path: tests/fixtures/cazy_2024.faa, expected_records: 2, record_prefix: ">"}
   cazy_fungi_2025:
-    {path: /array1/xinpeng/fungi-cazyme-PLM/tests/fixtures/cazy_2025.faa, expected_records: 6, record_prefix: ">"}
+    {path: tests/fixtures/cazy_2025.faa, expected_records: 6, record_prefix: ">"}
   dbcan_hmm_2024:
-    {path: /array1/xinpeng/fungi-cazyme-PLM/tests/fixtures/dbcan_2024.hmm, expected_records: 2, record_prefix: "NAME  "}
+    {path: tests/fixtures/dbcan_2024.hmm, expected_records: 2, record_prefix: "NAME  "}
   dbcan_hmm_current:
-    {path: /array1/xinpeng/fungi-cazyme-PLM/tests/fixtures/dbcan_current.hmm, expected_records: 2, record_prefix: "NAME  "}
+    {path: tests/fixtures/dbcan_current.hmm, expected_records: 2, record_prefix: "NAME  "}
   family_substrate_current:
-    {path: /array1/xinpeng/fungi-cazyme-PLM/tests/fixtures/fam-substrate.tsv, expected_records: 3, unique_records: true}
+    {path: tests/fixtures/fam-substrate.tsv, expected_records: 3, unique_records: true}
   mycocosm_metadata:
-    {path: /array1/xinpeng/fungi-cazyme-PLM/tests/fixtures/mycocosm_latin1.csv, expected_records: 1, encoding: latin-1}
+    {path: tests/fixtures/mycocosm_latin1.csv, expected_records: 1, encoding: latin-1}
   cazyme3d_sequences:
-    {path: /array1/xinpeng/fungi-cazyme-PLM/tests/fixtures/cazyme3d.faa, expected_records: 2, record_prefix: ">"}
+    {path: tests/fixtures/cazyme3d.faa, expected_records: 2, record_prefix: ">"}
 
 phase0:
   versions:

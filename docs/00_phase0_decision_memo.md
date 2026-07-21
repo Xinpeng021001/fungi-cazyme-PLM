@@ -40,7 +40,7 @@ The promoted full snapshot is
 | CAZyme3D local coverage | exact 13,951; non-exact 90/80 15,720; total 29,671/524,926 (5.6524%) | complete, predicted-reference source |
 | Frozen ESM-2 ceiling probe | no official cluster30 result | blocked by GPU preflight |
 | Independent boundary evaluation | no curated/PDB boundary table | blocked |
-| Licence/release decision | legacy ESM-C 600M is audit-only | blocked |
+| Licence/release decision | legacy ESM-C 600M remains audit-only; current 2026 MIT candidates await exact revision/model-card/licence snapshots | blocked |
 
 The comparison source has 1,980,141 physical data rows. One pre-registered
 malformed footer is excluded, leaving 1,980,140 normalized protein rows across
@@ -56,7 +56,9 @@ collapsed upstream.
 - `ceiling_probe`: official frozen ESM-2 650M cluster30 run is absent.
 - `protein_level_function_labels`: no characterized protein-level substrate/EC table.
 - `independent_boundary_gold`: HMM envelopes cannot evaluate themselves.
-- `licence_release_decision`: encoder and derivative-release terms are unresolved.
+- `licence_release_decision`: the old blanket 600M/6B assessment is superseded
+  for the current 2026 release, but the exact current and legacy artifacts,
+  revisions, hashes, model cards, and licence snapshots are not yet frozen.
 
 ## Interpretation safeguards
 

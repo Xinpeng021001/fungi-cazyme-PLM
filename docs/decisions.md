@@ -58,3 +58,34 @@ namespaces. The importer writes `protein_alias_conflicts` and exits non-zero.
 CAZy accession headers such as `AJP85509.1|GT1` are valid sequence records but
 contain no JGI genome field. Their stable accession is retained and genome is
 marked `unresolved_genome`; no taxonomy is inferred from the identifier.
+
+## D011 — Current ESMC release and legacy artifacts are separate decisions
+
+D006 remains unchanged for existing legacy ESM-C 600M embeddings, trained
+heads, and `*-2024-12` artifacts. The Biohub 2026 ESMC/ESMFold2/SAE release is
+a new candidate release whose official repository and model page state MIT
+terms and provide local Hugging Face weights, including 6B.
+
+No current artifact is approved merely from its display name. Before use, the
+run must archive the exact model card and licence, immutable model and code
+revisions, and weights SHA-256 in `model_artifact_manifest`. A current-release
+decision is never applied retroactively to an unpinned legacy cache.
+
+## D012 — Sequence-first ESMC roles are fixed for the first pilot
+
+Current ESMC 300M is the schema/throughput smoke model. Current ESMC 600M is
+the primary frozen per-task layer-sweep and optional LoRA candidate. ESMC 6B
+is limited to a controlled dense upper-bound and layer-60 SAE retrieval pilot.
+ESMC 6B SAE is baseline B8, not a replacement for the T3 function decoder.
+ESMFold2 is restricted to high-value proteins without PDB/CAZyme3D/AFDB
+coverage. ESM-2 650M remains the required continuity baseline.
+
+## D013 — met runs use a clean commit and an immutable wrapper
+
+The authoritative compute directory is
+`met.unl.edu:/array1/xinpeng/fungi-cazyme-PLM`. Scientific commands run through
+`scripts/remote/met_run.sh`, normally inside `tmux`. The wrapper rejects a
+dirty worktree by default and records command arguments, Git commit, host,
+selected GPUs, environment, stdout/stderr, exit status, and UTC timestamps in
+an immutable run directory. A dirty smoke run can be explicit but cannot be
+promoted.

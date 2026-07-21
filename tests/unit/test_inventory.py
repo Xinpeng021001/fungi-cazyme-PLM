@@ -15,6 +15,7 @@ FIXTURE_CONFIG = Path(__file__).parents[1] / "fixtures" / "config.yaml"
 
 def test_fixture_latin1_metadata_and_counts() -> None:
     config = load_config(FIXTURE_CONFIG)
+    assert config.project_root == FIXTURE_CONFIG.parents[2].resolve()
     spec = config.source("mycocosm_metadata")
     row = inspect_file("mycocosm_metadata", Path(spec["path"]), spec, quick=False)
     assert row.record_count == 1

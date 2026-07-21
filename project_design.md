@@ -22,7 +22,7 @@ The project is developed as a reproducible research repository, not a collection
 | 8 | Temporal split described | Temporal split **plus version-matched baselines** and PLM-pretraining-contamination stratification | Comparing a model trained on old CAZy against HMMs built from new CAZy is not a valid test |
 | 9 | No cost metrics | Runtime, memory, CPU-only feasibility are **first-class evaluation metrics** | A GPU-only tool that is 50x slower than HMMER will not be adopted by dbCAN users |
 | 10 | fam-0 analysis was descriptive | **Retrospective fam-0 resolution** as a quantitative benchmark | CAZy GH0 holds ~126k entries but only 14 characterized — no ground truth otherwise |
-| 11 | Licence/data policy unaddressed | **Blocking decisions in Phase 0** | ESM-C 600M weights are non-commercial and derivative weights inherit the licence; MycoCosm requires a genome reference or PI permission |
+| 11 | Licence/data policy unaddressed | **Blocking decisions in Phase 0** | ESM releases are version-specific: legacy `*-2024-12` artifacts and the current 2026 MIT release must be audited separately; MycoCosm requires a genome reference or PI permission |
 
 ---
 
@@ -395,6 +395,27 @@ Stage 3 — full fine-tuning only if Stage 2 shows headroom and compute allows.
 
 Losses: weighted cross-entropy, focal, class-balanced, hierarchical (class→family consistency), supervised contrastive for H3. All configurable in YAML.
 
+## 7.4 ESMC 2026 integration policy
+
+The detailed evidence review and implementation specification is
+`docs/esmc_2026_integration_report_zh.md`. The project uses the following
+model roles rather than treating ESMC as one interchangeable encoder:
+
+* current ESMC 300M is the schema, memory, and throughput smoke model;
+* current ESMC 600M is the primary frozen layer-sweep and optional LoRA
+  candidate; layer and pooling are selected independently for T1, T2, and T3;
+* current ESMC 6B is restricted to controlled dense upper-bound and SAE
+  retrieval pilots;
+* ESMC 6B layer-60 SAE is baseline B8 for remote-homology and fam-0 retrieval;
+* ESM-2 650M remains M0, the continuity ceiling required by Phase 0.
+
+Do not silently truncate long fungal proteins. Derive the safe residue budget
+from the pinned tokenizer/model config. Sequences above that budget use
+256-residue overlaps and center-weighted token-logit merging. T2/T3 pool only
+inside domain coordinates (optionally with a 64-residue flank), never across a
+multi-domain protein by default. All-layer residue states are limited to the
+layer-selection subset; full-scale runs retain selected-layer outputs only.
+
 ---
 
 # 8. Structure pipeline
@@ -406,7 +427,10 @@ Losses: weighted cross-entropy, focal, class-balanced, hierarchical (class→fam
 3. AFDB match at ≥90% identity and ≥80% coverage;
 4. prediction only for the remainder, and only for: the benchmark test sets, fam-0 candidates, remote homologs, and the discovery shortlist.
 
-ESMFold for throughput; ColabFold/AF2 for the small high-value sets. Record which was used per structure.
+ESMFold2 is a targeted throughput candidate for the small high-value sets, with
+ColabFold/AF2 retained as comparators where justified. It does not trigger a
+bulk refold of proteins already covered by CAZyme3D or AFDB. Record model
+revision, loops/sampling/MSA configuration, pLDDT, and PAE per prediction.
 
 ## 8.2 Quality handling
 
@@ -435,22 +459,30 @@ CAZyme3D already defines structural clusters (SCs) within families. Consider SC 
 | B5 | dbCAN-sub | substrate comparator for T3 |
 | B6 | **family→substrate lookup** (dbCAN family → table) | the honest function-decoder baseline |
 | B7 | amino-acid composition / k-mer + gradient boosting | sanity floor |
+| B8 | **ESMC 6B SAE domain retrieval** (dense/SAE cosine and SAE Jaccard) | remote-homology, fam-0, and interpretable retrieval baseline |
 
-B2 and B6 are the two baselines that decide whether Claims 1 and 2 survive. If Foldseek retrieval alone matches SaProt fusion, the conclusion is "use retrieval, not learned structural representation" — a clean, publishable result that saves substantial compute. Plan for that outcome rather than against it.
+B2 and B6 are the two baselines that decide whether Claims 1 and 2 survive.
+B8 additionally decides whether a sequence-only sparse representation removes
+enough of the remote-retrieval gap to avoid expensive structure prediction. If
+Foldseek or B8 alone matches SaProt fusion, the conclusion is "use retrieval,
+not learned structural fusion" — a clean, publishable result that saves
+substantial compute. Plan for that outcome rather than against it.
 
 ## 9.2 Experiment matrix
 
 | ID | Encoder | Structure | Head | Purpose |
 |----|---------|-----------|------|---------|
-| M1 | ESM-C frozen | – | linear/MLP | signal check |
-| M2 | ESM-C LoRA | – | H1+H2 | sequence-only ceiling |
+| M0 | ESM-2 650M frozen | – | linear/MLP | Phase 0 continuity ceiling |
+| M1a | current ESMC 300M frozen | – | linear/MLP | schema/throughput smoke |
+| M1 | current ESMC 600M frozen, per-task layer sweep | – | linear/MLP | signal check |
+| M2 | current ESMC 600M LoRA | – | H1+H2(+H3) | sequence-only ceiling |
 | M3 | SaProt frozen | ✔ | linear/MLP | structure PLM alone |
 | M4 | SaProt LoRA | ✔ | H1+H2 | |
 | M5 | ESM-C ⊕ SaProt gated fusion | ✔ | H1+H2(+clan) | **Claim 1** |
 | M6 | M5 + function decoder | ✔ | H1+H2+H3 | **Claim 2** |
 | M7 | M6 + fungal DAPT | ✔ | all | optional, gated (§13) |
 
-Splits applied to each: cluster30, order-holdout, temporal, family-holdout (within-clan and whole-clan).
+Splits applied to each: cluster30, order-holdout, temporal, family-holdout (within-clan and whole-clan). Random stratified CV is tutorial reproduction/leakage sensitivity only, never a headline split.
 Represent every experiment in YAML. Never hard-code model settings.
 
 ---
@@ -531,12 +563,25 @@ Resolve in Phase 0. Record in `docs/decisions.md`. Do not start dependent work f
 
 ## 12.1 Encoder licence
 
-* ESM-C 300M and the ESM code are under the permissive Cambrian Open License.
-* **ESM-C 600M weights are under the Cambrian Non-Commercial License.** 6B is API-only.
-* "Derivative Work" explicitly includes models created by fine-tuning or continued training. Derivatives inherit the licence terms and require "Built with ESM" attribution.
-* ESM-2 650M is MIT.
+The licence decision is artifact- and revision-specific.
 
-Consequence: if the model is to ship inside run_dbCAN — which has commercial users — then DAPT or fine-tuning on ESM-C 600M pulls the whole tool under non-commercial terms. Choose deliberately between ESM-C 300M, ESM-2 650M, and accepting a non-commercial release. This is an architecture decision, not an implementation detail.
+* D006 remains in force for existing legacy ESM-C 600M embeddings, heads, and
+  `*-2024-12` artifacts. A new licence statement must not be applied
+  retroactively to those files.
+* The Biohub 2026 model page and current `Biohub/esm` repository state that the
+  current ESMC variants, ESMC SAEs, and ESMFold2 code/weights are available
+  locally and released under MIT. This makes current ESMC 600M and 6B viable
+  candidates; it does not by itself identify the licence of an unpinned cache.
+* Before any dependent run, archive the exact Hugging Face model card, licence
+  file/URL, immutable model revision, code revision, and weights SHA-256. Record
+  them in `model_artifact_manifest`.
+* ESM-2 650M remains MIT and is retained as the continuity baseline.
+
+Consequence: the old blanket choice between permissive 300M, non-commercial
+600M, and API-only 6B is superseded for the current 2026 release. The Phase 0
+gate remains blocked until the exact artifacts that will be used and shipped
+are snapshotted. This is still an architecture and release decision, not an
+implementation detail.
 
 Check SaProt's licence and its base-model licence on the same basis before Stage 3.
 
@@ -667,7 +712,13 @@ Pin versions. Include creation and activation commands. Before choosing CUDA/PyT
 
 Unchanged from v1 and still correct: CLI arguments and `--help`; config files; input validation; informative errors; recorded seeds; logs; no hard-coded absolute paths beyond the project root; restartability; no silent overwrites; metadata beside outputs; docstrings and type hints; basic tests; chunked FASTA processing.
 
-Provenance on every model and embedding artifact: source dataset, sequence hash, model name and version, checkpoint, layer, pooling, date, environment, config file, git commit. For structure-derived artifacts add: structure source, predictor and version, mean pLDDT.
+Provenance on every model and embedding artifact follows
+`schemas/model_artifact_manifest.schema.json`: source dataset, canonical ID,
+sequence SHA-256, model ID and immutable revision, code revision, weights hash,
+licence snapshot, layer, pooling, context/window policy, split, date,
+environment, config file, git commit, and cost. For structure-derived artifacts
+add structure source/hash, predictor revision, mean pLDDT, and PAE URI where
+available.
 
 ## 14.4 Documentation policy
 
@@ -686,7 +737,7 @@ Step status vocabulary: `planned / implemented / smoke-tested / validated / comp
 | **0** | Error spectrum, ceiling probe, label audit, structure audit, licence/data memo | **Go/no-go for the whole framing** |
 | 1 | Repo scaffolding, data inventory, canonical protein + domain tables, boundary-label decision | Boundary source resolved |
 | 2 | Splits (cluster, taxonomic, temporal, family-holdout) + leakage report + contamination strata | Leakage report clean |
-| 3 | Baselines B0–B7, version-matched, on all splits | Baseline table frozen |
+| 3 | Baselines B0–B8, version-matched, on all splits | Baseline table frozen |
 | 4 | M1–M2 sequence-only, frozen then LoRA | Sequence ceiling known |
 | 5 | Structure pipeline + B2 + M3–M4 | Structure coverage and quality known |
 | 6 | M5 fusion + clan-hypothesis test | **Claim 1 resolved** |

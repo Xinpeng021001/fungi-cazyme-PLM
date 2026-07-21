@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- Added the Chinese ESMC 2026 evidence and project-integration report plus a
+  reproducible ReportLab PDF renderer and portable PDF output.
+- Added an immutable model-artifact schema and pinned-config template covering
+  model/license revisions, layers, pooling, long-sequence windows, structure,
+  splits, hardware, and cost.
+- Added the B8 ESMC 6B SAE retrieval baseline, current-release/legacy licence
+  separation, sequence-first model roles, and targeted ESMFold2 policy.
+- Documented and scripted reproducible execution on the met server, including
+  clean-commit enforcement, GPU selection, environment capture, and immutable
+  remote logs.
 - Established an independent reproducible research repository.
 - Added data-source inventory, manifests, append-only run logging, and schemas.
 - Added read-only Aim2 import and Phase 0 gap, function-label, structure, and
