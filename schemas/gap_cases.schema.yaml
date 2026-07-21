@@ -1,0 +1,27 @@
+name: gap_cases
+primary_key: [canonical_id, family_base]
+fields:
+  canonical_id: {type: string, nullable: false}
+  genome_id: {type: string, nullable: false}
+  expected_families: {type: string, nullable: false}
+  predicted_families: {type: string, nullable: false}
+  primary_error:
+    type: string
+    allowed: [hmm_model_absent, missed_entirely, wrong_family, incomplete_domain_set, overcall_only, concordant]
+  error_flags: {type: string, nullable: false}
+  family_base: {type: string, nullable: false}
+  cazy_class: {type: string, nullable: false}
+  family_size_bin: {type: string, nullable: false}
+  hmm_present: {type: bool, nullable: false}
+  best_i_evalue: {type: float64, nullable: true}
+  best_coverage: {type: float64, nullable: true}
+  best_bitscore: {type: float64, nullable: true}
+  nearest_seed_identity: {type: float64, nullable: true}
+  seed_query_coverage: {type: float64, nullable: true}
+  seed_reference_release: {type: string, nullable: true}
+  taxonomy_order: {type: string, nullable: true}
+  sequence_quality: {type: string, nullable: false}
+  boundary_assessment: {type: string, nullable: false}
+  source_release: {type: string, nullable: false}
+  dbcan_release: {type: string, nullable: false}
+

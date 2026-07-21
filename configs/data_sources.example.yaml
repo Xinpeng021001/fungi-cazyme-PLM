@@ -1,0 +1,112 @@
+project_root: ${FCPLM_PROJECT_ROOT}
+# After the first validated full inventory, set `pinned_snapshot` in the ignored
+# local config. Audit commands then fail before work if any input drifts.
+tools:
+  mmseqs: mmseqs
+  taxonkit: taxonkit
+outputs:
+  logs_dir: ${FCPLM_PROJECT_ROOT}/logs
+  results_dir: ${FCPLM_PROJECT_ROOT}/results/phase0
+  interim_dir: ${FCPLM_PROJECT_ROOT}/data/interim
+  processed_dir: ${FCPLM_PROJECT_ROOT}/data/processed
+  snapshots_dir: ${FCPLM_PROJECT_ROOT}/data/manifests/snapshots
+
+sources:
+  aim2_family_evaluation:
+    path: ${FCPLM_AIM2_ROOT}/scores/jgi_fungi/jgi_fungi_hmm_evaluation.tsv
+    kind: file
+    expected_records: 511
+  aim2_hits:
+    path: ${FCPLM_AIM2_ROOT}/scores/jgi_fungi/hits.tsv
+    kind: file
+    expected_records: 1630839
+  aim2_genome_support:
+    path: ${FCPLM_AIM2_ROOT}/scores/jgi_fungi/genome_support.tsv
+    kind: file
+    expected_records: 134469
+  aim2_protein_comparison:
+    path: ${FCPLM_AIM2_ROOT}/compare_results/new_results_no_subfam/compare_no-subfam.tsv
+    kind: file
+    expected_records: 1980141
+    known_malformed_rows: 1
+  aim2_protein_domain:
+    path: ${FCPLM_AIM2_ROOT}/compare_results/new_results_no_subfam/protein_domain.result_no-subfam.tsv
+    kind: file
+    expected_records: 578184
+  aim2_overcall_assessment:
+    path: ${FCPLM_AIM2_ROOT}/results/overcall_assessment.tsv
+    kind: file
+    expected_records: 536
+  aim2_dbcan_results:
+    path: ${FCPLM_AIM2_ROOT}/JGI_sequence_dbCAN
+    kind: directory
+    include: "*/dbCAN_hmm_results.tsv"
+    expected_files: 1198
+  aim2_proteomes:
+    path: ${FCPLM_AIM2_ROOT}/JGI_sequence
+    kind: directory
+    include: "*"
+    expected_files: 1198
+  cazy_fungi_2024:
+    path: ${FCPLM_DATA_ROOT}/fungi-cazyme-project/CAZyDB.07142024.fungi.faa
+    kind: file
+    expected_records: 457694
+    record_prefix: ">"
+  cazy_fungi_2025:
+    path: ${FCPLM_DATA_ROOT}/fungi-cazyme-project/CAZyDB.07242025.fungi.faa
+    kind: file
+    expected_records: 524926
+    record_prefix: ">"
+  cazy_metadata_20260529:
+    path: ${FCPLM_DATA_ROOT}/fungi-cazyme-project/cazy_data_20260529.txt
+    kind: file
+    expected_records: 6006576
+    has_header: false
+  dbcan_hmm_2024:
+    path: ${FCPLM_DATA_ROOT}/dbcan_db_2024/dbCAN.hmm
+    kind: file
+    expected_records: 826
+    record_prefix: "NAME  "
+  dbcan_hmm_current:
+    path: ${FCPLM_DATA_ROOT}/dbcan_db/dbCAN.hmm
+    kind: file
+    expected_records: 875
+    record_prefix: "NAME  "
+  dbcan_msa_2024:
+    path: ${FCPLM_DATA_ROOT}/dbcan4-advanced/hmm2024/msa
+    kind: directory
+    include: "*.aln"
+  family_substrate_current:
+    path: ${FCPLM_DATA_ROOT}/dbcan_db/fam-substrate-mapping.tsv
+    kind: file
+    expected_records: 1023
+    unique_records: true
+  family_info_2024:
+    path: ${FCPLM_DATA_ROOT}/fam-info-08-14-24.txt
+    kind: file
+  mycocosm_metadata:
+    path: ${FCPLM_PROJECT_ROOT}/mycocosm_genome_metadata.csv
+    kind: file
+    expected_records: 3836
+    encoding: latin-1
+  cazyme3d_sequences:
+    path: ${FCPLM_DATA_ROOT}/cazyme3d/cazyme3d_id50_aa.faa
+    kind: file
+    expected_records: 178356
+    record_prefix: ">"
+  cazyme3d_archive:
+    path: ${FCPLM_DATA_ROOT}/cazyme3d/CAZyme3d_id50.tar.gz
+    kind: file
+  cazyme3d_legacy_mapping:
+    path: ${FCPLM_DATA_ROOT}/dbcan4-advanced/structure/cazyme3d_mapping/mapping_matched_genes.tsv
+    kind: file
+  legacy_reference_labels_2024:
+    path: ${FCPLM_DATA_ROOT}/dbcan4-advanced/data/reference_labels_2024.tsv
+    kind: file
+  legacy_test_labels_2025:
+    path: ${FCPLM_DATA_ROOT}/dbcan4-advanced/data/test_2025_labels.tsv
+    kind: file
+  legacy_embeddings:
+    path: ${FCPLM_DATA_ROOT}/dbcan4-advanced/emb
+    kind: directory
+    include: "*.npz"

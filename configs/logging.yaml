@@ -1,0 +1,15 @@
+run_id_format: "%Y%m%dT%H%M%SZ"
+append_only: true
+capture_stdout: true
+capture_stderr: true
+environment_allowlist:
+  - python
+  - platform
+  - hostname
+  - cpu_count
+  - git_commit
+  - git_dirty
+  - mmseqs
+  - taxonkit
+  - hmmsearch
+

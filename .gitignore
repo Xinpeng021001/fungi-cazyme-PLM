@@ -1,0 +1,48 @@
+# Local configuration and credentials
+configs/data_sources.local.yaml
+.env
+mycocosm_genome_metadata.csv
+
+# Historical convenience links; authoritative paths live in local config
+Mycocosm_fungi_dbcan_annotation
+Mycocosm_fungi_sequence_in-cazy
+Mycocosm_fungi_sequence_in-cazy-dbcan-annotation
+cazy-fungi-annotation
+dbcan_db_2024
+dbcan_db_2025
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+.venv/
+build/
+dist/
+
+# Large or generated research artifacts
+data/external/**
+data/interim/**
+data/processed/**
+data/structures/**
+data/splits/**
+embeddings/
+models/
+results/phase0/*/
+logs/*/
+
+# Keep directory placeholders and promoted small reports
+!data/external/.gitkeep
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+!data/structures/.gitkeep
+!data/splits/.gitkeep
+!results/phase0/.gitkeep
+!logs/.gitkeep
+
+# Local editor / OS files
+.DS_Store
+*.swp
+*.swo

@@ -1,0 +1,7 @@
+protein_id	genome	cazy_annotation	dbcan_annotation	result
+1	Test1	GH1	GH1	same
+2	Test1	GH1	-	missing
+3	Test1	GH1	CBM1	different
+4	Test1	GH1+CBM1	GH1	partial
+5	Test1	-	GH1	overcall
+6	Test1	GH0	-	missing

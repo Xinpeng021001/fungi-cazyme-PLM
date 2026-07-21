@@ -1,0 +1,8 @@
+# Phase 0 report generation
+
+- Run ID: `20260720T223631843778Z_f4a32c6e_fcplm-report-phase0---config-configs`
+- Artifact sources: `{'aim2': '/array1/xinpeng/fungi-cazyme-PLM/results/phase0/20260720T221547249366Z_f4a32c6e_fcplm-phase0-all---config-configs-da', 'gap': '/array1/xinpeng/fungi-cazyme-PLM/results/phase0/20260720T223114389420Z_f4a32c6e_fcplm-phase0-gap---config-configs-da', 'function': '/array1/xinpeng/fungi-cazyme-PLM/results/phase0/20260720T221758618977Z_f4a32c6e_fcplm-phase0-labels---config-configs', 'structure': '/array1/xinpeng/fungi-cazyme-PLM/results/phase0/20260720T221927641266Z_f4a32c6e_fcplm-phase0-structures---config-con'}`
+- Result: `blocked_pending_phase0_gates`
+- Generated memo: `/array1/xinpeng/fungi-cazyme-PLM/results/phase0/20260720T223631843778Z_f4a32c6e_fcplm-report-phase0---config-configs/00_phase0_decision_memo.generated.md`
+- Blockers: protein_alias_integrity, seed_identity_2024, ceiling_probe, protein_level_function_labels, independent_boundary_gold, licence_release_decision
+- Next: Run the official ESM-2 650M cluster30 ceiling probe; do not substitute legacy ESM-C 600M results.

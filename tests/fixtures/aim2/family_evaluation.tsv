@@ -1,0 +1,4 @@
+family	n_true	recall_default	recall_hi	precision_default	precision_hi	health	auprc	verdict	priority	hmm_len	seed_source	rec_bit_cutoff	rec_cov_cutoff	heldout_recall_default	heldout_precision_default	heldout_F1_default	heldout_recall_tuned	heldout_precision_tuned	heldout_F1_tuned	heldout_F1_gain	generalizes
+GH1	4	0.75	0.75	0.75	0.75	0.75	0.80	WATCH	1	100	fixture	25	0.35	0.75	0.75	0.75	0.75	0.75	0.75	0.00	yes
+CBM1	1	0.00	0.00	1.00	1.00	0.00	0.50	FAIL	2	30	fixture	12	0.35	0.00	1.00	0.00	0.00	1.00	0.00	0.00	no
+GH0	1	0.00	0.00	NA	NA	0.00	NA	OPEN	3	NA	NA	NA	NA	0.00	NA	0.00	0.00	NA	0.00	0.00	yes

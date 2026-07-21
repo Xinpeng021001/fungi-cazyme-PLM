@@ -1,0 +1,24 @@
+source_id	release	role	format	schema_id	authority	evidence_level	license_status	notes
+aim2_family_evaluation	2026-07-19	final fungi family metrics	tsv	aim2_family_evaluation	primary_numeric	computational	internal_read_only	511 data rows; final table outranks narrative reports
+aim2_hits	2026-07-19	fungal raw HMM score universe	tsv	aim2_hits	primary_numeric	computational	internal_read_only	Pre-overlap score rows used for borderline analysis
+aim2_genome_support	2026-07-19	family-by-genome truth denominators	tsv	aim2_genome_support	primary_numeric	curated_family_label	internal_read_only	1198 fungal genomes
+aim2_protein_comparison	2025-11-24	protein family-set comparison	tsv	aim2_protein_comparison	primary_numeric	operational_agreement	internal_read_only	1980141 physical rows; one registered malformed footer; 1980140 normalized rows
+aim2_protein_domain	2025-11-24	protein domain-multiset comparison	tsv	aim2_protein_domain	primary_numeric	operational_agreement	internal_read_only	No independent coordinates
+aim2_overcall_assessment	2026-07-19	overcall triage	tsv	aim2_overcall_assessment	primary_numeric	mixed_independent_support	internal_read_only	Use corrected AA7 interpretation
+aim2_dbcan_results	2025	per-genome HMM envelopes	directory-tsv	dbcan_hmm_results	primary_numeric	weak_supervision	internal_read_only	1198 files; boundary labels are circular
+aim2_proteomes	2025	JGI fungal proteomes	directory-fasta	protein_fasta	primary_sequence	predicted_gene_models	JGI_published_only	1198 evaluated genomes
+cazy_fungi_2024	2024-07-14	temporal training/reference truth	fasta	cazy_fasta	primary_label	CAZy_family	internal_read_only	457694 records
+cazy_fungi_2025	2025-07-24	fungal benchmark truth	fasta	cazy_fasta	primary_label	CAZy_family	internal_read_only	524926 records
+cazy_metadata_20260529	2026-05-29	taxonomy/provenance only	tsv	cazy_metadata	secondary_metadata	CAZy_family	internal_read_only	Release mismatch: do not silently use as 2025 truth
+dbcan_hmm_2024	2024	version-matched HMM baseline	hmm	hmmer3	primary_model	computational	internal_read_only	826 models
+dbcan_hmm_current	2025	current HMM baseline	hmm	hmmer3	primary_model	computational	internal_read_only	875 models
+dbcan_msa_2024	2024	seed-identity reference	directory-alignment	aligned_fasta	secondary_reference	HMM_build_alignment	internal_read_only	Not a 2025 seed alignment
+family_substrate_current	2026	function-space weak labels	tsv	family_substrate	primary_mapping	family_inherited	internal_read_only	1024 physical rows; 1023 unique after one exact GH3 duplicate; protein-level hard labels absent
+family_info_2024	2024	HMM seed provenance and activity notes	tsv	family_info	secondary_metadata	mixed	internal_read_only	Contains malformed lone quote in AA18 row
+mycocosm_metadata	2026	JGI publication/data-use metadata	csv	mycocosm_metadata	primary_metadata	metadata	JGI_policy	Latin-1 encoding; 3836 current data rows
+cazyme3d_sequences	2026	local structure-reference sequences	fasta	protein_fasta	primary_sequence	predicted_structure	internal_read_only	178356 ID50 representatives
+cazyme3d_archive	2026	local structure archive	tar.gz	pdb_archive	primary_structure	predicted_structure	internal_read_only	Do not extract wholesale in Phase 0
+cazyme3d_legacy_mapping	2026-07-09	exact sequence-hash legacy mapping	tsv	cazyme3d_mapping	secondary_numeric	computational	internal_read_only	Exact mapping coverage is near zero; not 90/80 coverage
+legacy_reference_labels_2024	2024	legacy temporal reference labels	tsv	legacy_labels	secondary_numeric	CAZy_family	internal_read_only	Avoid duplicate temporal-data construction
+legacy_test_labels_2025	2025	legacy temporal test labels	tsv	legacy_labels	secondary_numeric	CAZy_family	internal_read_only	4726 benchmark subset in legacy work
+legacy_embeddings	2026-07	legacy ESM-C embeddings	directory-npz	embeddings	secondary_artifact	model_derived	noncommercial_review	Audit-only until licence decision

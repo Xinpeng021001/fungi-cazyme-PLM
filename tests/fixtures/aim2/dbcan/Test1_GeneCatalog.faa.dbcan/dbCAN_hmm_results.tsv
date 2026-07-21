@@ -1,0 +1,4 @@
+HMM Name	HMM Length	Target Name	Target Length	i-Evalue	HMM From	HMM To	Target From	Target To	Coverage	HMM File Name
+GH1.hmm	100	jgi-Test1-1-protein	5	1e-30	1	90	1	5	0.90	dbCAN
+GH1.hmm	100	jgi-Test1-4-protein	5	1e-30	1	90	1	5	0.90	dbCAN
+GH1.hmm	100	jgi-Test1-5-protein	5	1e-40	1	90	1	5	0.90	dbCAN

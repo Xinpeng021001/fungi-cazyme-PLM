@@ -1,0 +1,25 @@
+family_size_bins:
+  - {label: "<30", min: 0, max: 29}
+  - {label: "30-99", min: 30, max: 99}
+  - {label: "100-999", min: 100, max: 999}
+  - {label: ">=1000", min: 1000, max: null}
+
+thresholds:
+  default_i_evalue: 1.0e-15
+  default_hmm_coverage: 0.35
+  borderline_i_evalue_max: 1.0e-13
+  borderline_coverage_min: 0.25
+  structure_identity_min: 0.90
+  structure_coverage_min: 0.80
+  seed_target_coverage_min: 0.80
+
+go_no_go:
+  addressable_error_threshold: 0.05
+  confidence_level: 0.95
+  ambiguous_manual_review_target: 500
+
+versions:
+  cazy_truth_release: "2025-07-24"
+  dbcan_release: "5.2.9 / 2025 database"
+  seed_reference_release: "2024"
+

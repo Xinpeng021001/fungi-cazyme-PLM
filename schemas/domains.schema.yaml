@@ -1,0 +1,21 @@
+name: domains
+primary_key: [canonical_id, domain_index]
+coordinate_convention: 1-based inclusive
+fields:
+  canonical_id: {type: string, nullable: false}
+  domain_index: {type: int64, nullable: false}
+  start_1based: {type: int64, nullable: false, minimum: 1}
+  end_1based_inclusive: {type: int64, nullable: false, minimum: 1}
+  boundary_source: {type: string, nullable: false}
+  boundary_confidence: {type: string, nullable: false}
+  evidence_type: {type: string, nullable: false}
+  family_raw: {type: string, nullable: false}
+  family_base: {type: string, nullable: false}
+  cazy_class: {type: string, nullable: false}
+  cazy_subfamily: {type: string, nullable: true}
+  clan: {type: string, nullable: true}
+  ec_number: {type: string, nullable: true}
+  substrate_label: {type: string, nullable: true}
+  substrate_label_source: {type: string, nullable: true}
+  substrate_label_level: {type: string, allowed: [protein, subfamily, family, none]}
+

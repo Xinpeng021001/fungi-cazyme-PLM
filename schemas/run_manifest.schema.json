@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "run_manifest.schema.json",
+  "title": "FCPLM immutable run manifest",
+  "type": "object",
+  "required": [
+    "run_id", "command", "status", "started_at_utc", "config_path",
+    "config_sha256", "git_commit", "git_dirty", "result_dir", "log_dir"
+  ],
+  "properties": {
+    "run_id": {"type": "string"},
+    "command": {"type": "string"},
+    "status": {"enum": ["running", "completed", "failed", "partial"]},
+    "started_at_utc": {"type": "string"},
+    "ended_at_utc": {"type": ["string", "null"]},
+    "config_path": {"type": "string"},
+    "config_sha256": {"type": "string"},
+    "git_commit": {"type": "string"},
+    "git_dirty": {"type": "boolean"},
+    "random_seed": {"type": "integer"},
+    "resume_from_run_id": {"type": ["string", "null"]},
+    "result_dir": {"type": "string"},
+    "log_dir": {"type": "string"},
+    "error": {"type": ["string", "null"]}
+  },
+  "additionalProperties": true
+}

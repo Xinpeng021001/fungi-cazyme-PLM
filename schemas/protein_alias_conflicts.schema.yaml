@@ -1,0 +1,22 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: protein_alias_conflicts
+type: object
+additionalProperties: false
+required:
+  - canonical_id
+  - kept_observed_genome_id
+  - kept_dbcan_gene_id
+  - kept_sequence_sha256
+  - conflicting_observed_genome_id
+  - conflicting_dbcan_gene_id
+  - conflicting_sequence_sha256
+  - sequences_equal
+properties:
+  canonical_id: {type: string}
+  kept_observed_genome_id: {type: string}
+  kept_dbcan_gene_id: {type: string}
+  kept_sequence_sha256: {type: string, pattern: "^[0-9a-f]{64}$"}
+  conflicting_observed_genome_id: {type: string}
+  conflicting_dbcan_gene_id: {type: string}
+  conflicting_sequence_sha256: {type: string, pattern: "^[0-9a-f]{64}$"}
+  sequences_equal: {type: boolean}

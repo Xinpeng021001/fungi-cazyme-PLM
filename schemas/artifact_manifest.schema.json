@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "artifact_manifest.schema.json",
+  "title": "FCPLM source artifact snapshot row",
+  "type": "object",
+  "required": [
+    "source_id", "kind", "resolved_path", "exists", "size_bytes",
+    "mtime_utc", "sha256", "record_count", "columns", "validation_status"
+  ],
+  "properties": {
+    "source_id": {"type": "string", "minLength": 1},
+    "kind": {"enum": ["file", "directory"]},
+    "resolved_path": {"type": "string"},
+    "exists": {"type": "boolean"},
+    "size_bytes": {"type": "integer", "minimum": 0},
+    "mtime_utc": {"type": "string"},
+    "sha256": {"type": "string"},
+    "record_count": {"type": ["integer", "null"], "minimum": 0},
+    "columns": {"type": "array", "items": {"type": "string"}},
+    "validation_status": {"enum": ["ok", "warning", "error"]},
+    "validation_message": {"type": "string"}
+  },
+  "additionalProperties": true
+}
+

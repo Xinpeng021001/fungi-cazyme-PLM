@@ -1,0 +1,5 @@
+family	protein_id	genome	i_evalue	coverage	bitscore	neg_log10_evalue	label	taxon
+GH1	2	Test1	5e-14	0.40	20	13.301	pos	fungi
+CBM1	4	Test1	1e-20	0.30	18	20	pos	fungi
+GH1	4	Test1	1e-30	0.80	40	30	pos	fungi
+GH1	5	Test1	1e-40	0.90	60	40	neg	fungi

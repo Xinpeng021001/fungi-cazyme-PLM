@@ -1,0 +1,14 @@
+name: protein_aliases
+primary_key: [canonical_id]
+fields:
+  canonical_id: {type: string, nullable: false}
+  genome_id: {type: string, nullable: false}
+  original_id: {type: string, nullable: false}
+  dbcan_gene_id: {type: string, nullable: true}
+  source_database: {type: string, nullable: false}
+  sequence_sha256: {type: string, nullable: false}
+  legacy_seq_md5: {type: string, nullable: false}
+  sequence_length: {type: int64, nullable: false}
+  join_method: {type: string, nullable: false}
+  join_confidence: {type: string, allowed: [exact, high, low, unresolved]}
+

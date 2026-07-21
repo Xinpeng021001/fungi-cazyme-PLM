@@ -1,0 +1,23 @@
+name: proteins
+primary_key: [canonical_id]
+fields:
+  canonical_id: {type: string, nullable: false}
+  original_id: {type: string, nullable: false}
+  source_database: {type: string, nullable: false}
+  genome_id: {type: string, nullable: true}
+  genome_published_ref: {type: bool, nullable: true}
+  species: {type: string, nullable: true}
+  genus: {type: string, nullable: true}
+  family: {type: string, nullable: true}
+  order: {type: string, nullable: true}
+  class: {type: string, nullable: true}
+  phylum: {type: string, nullable: true}
+  sequence_sha256: {type: string, nullable: false}
+  legacy_seq_md5: {type: string, nullable: true}
+  sequence_length: {type: int64, nullable: false}
+  evidence_type: {type: string, nullable: false}
+  dataset_role: {type: string, nullable: false}
+  structure_source: {type: string, nullable: true}
+  structure_path: {type: string, nullable: true}
+  mean_plddt: {type: float64, nullable: true}
+
