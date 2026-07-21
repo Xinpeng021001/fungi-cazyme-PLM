@@ -29,7 +29,7 @@ data/processed/**
 data/structures/**
 data/splits/**
 embeddings/
-models/
+/models/
 results/phase0/*/
 logs/*/
 

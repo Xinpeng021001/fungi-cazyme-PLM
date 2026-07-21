@@ -1,0 +1,63 @@
+schema_version: 1
+status: example_only
+
+# Every executable config must replace floating revisions with immutable commit
+# SHAs and archive its model card and license beside the run manifest.
+models:
+  smoke:
+    model_id: biohub/ESMC-300M
+    model_revision: REPLACE_WITH_IMMUTABLE_REVISION
+    backend: huggingface
+    purpose: schema_and_throughput_smoke
+  sequence_primary:
+    model_id: biohub/ESMC-600M
+    model_revision: REPLACE_WITH_IMMUTABLE_REVISION
+    backend: huggingface
+    purpose: frozen_layer_sweep_then_optional_lora
+  remote_upper_bound:
+    model_id: biohub/ESMC-6B
+    model_revision: REPLACE_WITH_IMMUTABLE_REVISION
+    backend: huggingface
+    purpose: controlled_dense_and_sae_pilot
+  sae_retrieval:
+    model_id: biohub/ESMC-6B-sae-k64-codebook16384
+    model_revision: REPLACE_WITH_IMMUTABLE_REVISION
+    backend: huggingface
+    layer_indices: [60]
+    top_k: 64
+    codebook_size: 16384
+    normalization: tf_idf
+
+representation:
+  layer_selection: nested_validation_per_task
+  candidate_pooling: [mean, max, attention]
+  storage_dtype: float16
+  residue_storage: selected_layers_only
+  domain_storage: pooled_embeddings
+
+long_sequences:
+  max_residue_budget: from_model_config
+  overlap_residues: 256
+  domain_flank_residues: 64
+  token_merge: center_weighted_logits
+  forbid_silent_truncation: true
+
+lora_initial:
+  rank: 8
+  alpha: 16
+  dropout: 0.01
+  target_modules: [out_proj]
+  target_parameters:
+    - layernorm_qkv.weight
+    - ffn.fc1_weight
+    - ffn.fc2_weight
+  full_finetune_6b: false
+
+governance:
+  require_clean_git_tree: true
+  require_model_card_snapshot: true
+  require_license_snapshot: true
+  require_weights_sha256: true
+  require_sequence_sha256: true
+  coordinate_convention: 1-based inclusive
+
